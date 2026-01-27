@@ -13,7 +13,7 @@ use App\Http\Controllers\Api\AuthController;
     return $request->user();
 })->middleware('auth:sanctum');*/
 
-Route::post('/login', [AuthController::class, 'login'])
+Route::post('/login', [AuthController::class, 'login']);
 
 Route::middleware('auth:sanctum')->group(function () {
 
@@ -28,4 +28,4 @@ Route::middleware('auth:sanctum')->group(function () {
 
     //Variant API route
     Route::apiResource('/variants', productController::class);
-}
+});

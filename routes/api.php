@@ -14,7 +14,7 @@ use App\Http\Controllers\Api\AuthController;
 })->middleware('auth:sanctum');*/
 
 Route::post('/login', [AuthController::class, 'login']);
-Route::get('/products');
+Route::get('/products', [productController::class, 'index']);
 
 Route::middleware('auth:sanctum')->prefix('admin')->name('admin')->group(function () {
 

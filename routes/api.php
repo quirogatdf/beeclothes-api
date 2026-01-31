@@ -14,8 +14,9 @@ use App\Http\Controllers\Api\AuthController;
 })->middleware('auth:sanctum');*/
 
 Route::post('/login', [AuthController::class, 'login']);
+Route::get('/products');
 
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware('auth:sanctum')->prefix('admin')->name('admin')->group(function () {
 
     // Colors API route
     Route::apiResource('/colors', colorController::class);

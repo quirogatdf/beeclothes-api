@@ -68,4 +68,51 @@ class productController extends Controller
             ], 201);
         });
     }
+    // Update an existing product
+    public function update(Request $request, $id)
+    {
+        $product = Product::findOrFail($id);
+        
+        $validated = $request->validate([
+            'name' => 'sometimes|required|string|max:255',
+            'description' => 'nullable|string',
+            'category_id' => 'nullable|exists:categories,id',
+            'is_active' => 'boolean',
+            
+            // Datos de las Variantes (Array)
+            'variants' => 'sometimes|array|min:1',
+            
+            // Validaciones por cada item del array
+            'variants.*.sku' => 'required|string|unique:variants,sku,' . $id . ',product_id',
+            'variants.*.size_id' => 'required|exists:sizes,id',
+            'variants.*.color_id' => 'nullable|exists:colors,id',
+            'variants.*.stock' => 'required|integer|min:0',
+            
+            // Validar Dinero
+            'variants.*.cost' => 'required|numeric|min:0',
+            'variants.*.price' => 'required|numeric|min:0',
+            'variants.*.promotional_price' => 'nullable|numeric|lt:variants.*.price',
+        ]);
+        
+        return DB::transaction(function () use ($validated, $product) {
+            // Actualizar datos del producto
+            $product->update([
+                'name' => $validated['name'] ?? $product->name,
+                'description' => $validated['description'] ?? $product->description,
+                'category_id' => $validated['category_id'] ?? $product->category_id,
+                'is_active' => $validated['is_active'] ?? $product->is_active,
+            ]);
+            
+            // Si se proporcionan variantes, actualizarlas
+            if (isset($validated['variants'])) {
+                $product->variants()->delete();
+                $product->variants()->createMany($validated['variants']);
+            }
+            
+            return response()->json([
+                'message' => 'Producto actualizado correctamente',
+                'data' => $product->load('variants', 'category')
+            ]);
+        });
+    }
 }

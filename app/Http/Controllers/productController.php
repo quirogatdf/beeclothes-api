@@ -49,6 +49,9 @@ class productController extends Controller
             'variants.*.cost' => 'required|numeric|min:0',
             'variants.*.price' => 'required|numeric|min:0',
             'variants.*.promotional_price' => 'nullable|numeric|lt:variants.*.price',
+            
+            // Validar URL de imagen
+            'variants.*.image_url' => 'nullable|url|max:2048',
         ]);
         return DB::transaction(function () use ($validated) {
             // A. Crear Producto Padre
@@ -92,6 +95,9 @@ class productController extends Controller
             'variants.*.cost' => 'required|numeric|min:0',
             'variants.*.price' => 'required|numeric|min:0',
             'variants.*.promotional_price' => 'nullable|numeric|lt:variants.*.price',
+            
+            // Validar URL de imagen
+            'variants.*.image_url' => 'nullable|url|max:2048',
         ]);
         
         return DB::transaction(function () use ($validated, $product) {

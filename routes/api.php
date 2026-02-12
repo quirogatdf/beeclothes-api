@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\colorController;
 use App\Http\Controllers\sizeController;
 use App\Http\Controllers\productController;
+use App\Http\Controllers\categoryController;
 use App\Http\Controllers\Api\AuthController;
 
 
@@ -23,6 +24,9 @@ Route::middleware('auth:sanctum')->prefix('admin')->name('admin')->group(functio
 
     // Sizes API route
     Route::apiResource('/sizes', sizeController::class);
+
+    // Categories API route
+    Route::apiResource('/categories', categoryController::class);
 
     //Products API route
     Route::apiResource('/products', productController::class);

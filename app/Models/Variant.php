@@ -17,6 +17,7 @@ class Variant extends Model
         'cost',
         'price',
         'promocional_price',
+        'image_url',
     ];
     // --- Relations --- //
     public function product(): BelongsTo
@@ -44,7 +45,7 @@ class Variant extends Model
             if($category && $category->global_discount > 0) {
                 if (is_null($category->discount_expires_at) || $category->discount_expires_at>now()) {
                     $discountAmount = $this->price * ($category->global_discount / 100);
-                    return (float) ($this.price - $discountAmount);
+                    return (float) ($this->price - $discountAmount);
                 }
             }
 
@@ -56,6 +57,6 @@ class Variant extends Model
         'stock' => 'integer',
         'cost' => 'float',
         'price' => 'float',
-        'promotional_price' => 'float',
+        'promocional_price' => 'float',
     ];
 }

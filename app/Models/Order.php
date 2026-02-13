@@ -10,12 +10,15 @@ class Order extends Model
     protected $fillable = [
         'supplier_id',
         'external_id',
+        'order_date',
+        'tracking_code',
         'amount',
         'observations',
     ];
 
     protected $casts = [
         'amount' => 'decimal:2',
+        'order_date' => 'date',
     ];
 
     public function supplier(): BelongsTo

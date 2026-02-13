@@ -22,6 +22,8 @@ class orderController extends Controller
         $validated = $request->validate([
             'supplier_id' => 'required|exists:suppliers,id',
             'external_id' => 'required|string|max:255',
+            'order_date' => 'nullable|date',
+            'tracking_code' => 'nullable|string|max:255',
             'amount' => 'required|numeric|min:0',
             'observations' => 'nullable|string',
         ]);
@@ -36,6 +38,8 @@ class orderController extends Controller
         $validated = $request->validate([
             'supplier_id' => 'sometimes|required|exists:suppliers,id',
             'external_id' => 'sometimes|required|string|max:255',
+            'order_date' => 'nullable|date',
+            'tracking_code' => 'nullable|string|max:255',
             'amount' => 'sometimes|required|numeric|min:0',
             'observations' => 'nullable|string',
         ]);

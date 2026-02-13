@@ -8,6 +8,7 @@ use App\Http\Controllers\sizeController;
 use App\Http\Controllers\productController;
 use App\Http\Controllers\categoryController;
 use App\Http\Controllers\supplierController;
+use App\Http\Controllers\orderController;
 use App\Http\Controllers\Api\AuthController;
 
 
@@ -37,4 +38,7 @@ Route::middleware('auth:sanctum')->prefix('admin')->name('admin')->group(functio
 
     //Suppliers API route
     Route::apiResource('/suppliers', supplierController::class);
+
+    //Orders API route
+    Route::apiResource('/orders', orderController::class);
 });

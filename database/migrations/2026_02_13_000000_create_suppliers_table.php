@@ -14,6 +14,7 @@ return new class extends Migration
             $table->string('cuit')->unique();
             $table->string('phone');
             $table->string('mail');
+            $table->string('link')->nullable();
             $table->timestamps();
         });
     }

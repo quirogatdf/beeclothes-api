@@ -24,6 +24,7 @@ class supplierController extends Controller
             'cuit' => 'required|string|unique:suppliers,cuit',
             'phone' => 'required|string|max:50',
             'mail' => 'required|email',
+            'link' => 'nullable|url',
         ]);
 
         return Supplier::create($validated);
@@ -38,6 +39,7 @@ class supplierController extends Controller
             'cuit' => 'sometimes|required|string|unique:suppliers,cuit,' . $id,
             'phone' => 'sometimes|required|string|max:50',
             'mail' => 'sometimes|required|email',
+            'link' => 'nullable|url',
         ]);
 
         $supplier->update($validated);

@@ -12,5 +12,11 @@ class Supplier extends Model
         'cuit',
         'phone',
         'mail',
+        'link',
     ];
+
+    public function orders(): HasMany
+    {
+        return $this->hasMany(Order::class);
+    }
 }

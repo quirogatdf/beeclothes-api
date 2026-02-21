@@ -11,6 +11,7 @@ use App\Http\Controllers\supplierController;
 use App\Http\Controllers\orderController;
 use App\Http\Controllers\OrderDetailController;
 use App\Http\Controllers\SaleController;
+use App\Http\Controllers\variantController;
 use App\Http\Controllers\Api\AuthController;
 
 
@@ -36,7 +37,7 @@ Route::middleware('auth:sanctum')->prefix('admin')->name('admin')->group(functio
     Route::apiResource('/products', productController::class);
 
     //Variant API route
-    Route::apiResource('/variants', productController::class);
+    Route::apiResource('/variants', variantController::class);
 
     //Suppliers API route
     Route::apiResource('/suppliers', supplierController::class);

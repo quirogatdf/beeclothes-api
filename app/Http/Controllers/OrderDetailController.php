@@ -9,12 +9,12 @@ class OrderDetailController extends Controller
 {
     public function index()
     {
-        return OrderDetail::with('variant', 'order')->get();
+        return OrderDetail::with('variant.product', 'variant.color', 'variant.size', 'order')->get();
     }
 
     public function show($id)
     {
-        return OrderDetail::with('variant', 'order')->findOrFail($id);
+        return OrderDetail::with('variant.product', 'variant.color', 'variant.size', 'order')->findOrFail($id);
     }
 
     public function store(Request $request)

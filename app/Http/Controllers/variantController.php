@@ -9,11 +9,11 @@ class variantController extends Controller
 {
     public function index()
     {
-        return Variant::all();
+        return Variant::with('product', 'color', 'size')->get();
     }
 
     public function show($id)
     {
-        return Variant::findOrFail($id);
+        return Variant::with('product', 'color', 'size')->findOrFail($id);
     }
 }

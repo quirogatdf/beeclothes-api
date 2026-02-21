@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Variant extends Model
 {
@@ -32,6 +33,17 @@ class Variant extends Model
     {
         return $this->belongsTo(Color::class);
     }
+
+    public function orderDetails(): HasMany
+    {
+        return $this->hasMany(OrderDetail::class);
+    }
+
+    public function sales(): HasMany
+    {
+        return $this->hasMany(Sale::class);
+    }
+
     private function finalPrice(): Attribute
     {
         return Attribute::make(

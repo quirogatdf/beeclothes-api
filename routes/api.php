@@ -9,6 +9,8 @@ use App\Http\Controllers\productController;
 use App\Http\Controllers\categoryController;
 use App\Http\Controllers\supplierController;
 use App\Http\Controllers\orderController;
+use App\Http\Controllers\OrderDetailController;
+use App\Http\Controllers\SaleController;
 use App\Http\Controllers\Api\AuthController;
 
 
@@ -41,4 +43,10 @@ Route::middleware('auth:sanctum')->prefix('admin')->name('admin')->group(functio
 
     //Orders API route
     Route::apiResource('/orders', orderController::class);
+
+    //OrderDetails API route
+    Route::apiResource('/order-details', OrderDetailController::class);
+
+    //Sales API route
+    Route::apiResource('/sales', SaleController::class);
 });

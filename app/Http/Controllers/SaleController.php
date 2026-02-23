@@ -9,12 +9,12 @@ class SaleController extends Controller
 {
     public function index()
     {
-        return Sale::with('variant', 'orderDetail')->get();
+        return Sale::with('variant.product', 'variant.color', 'variant.size', 'orderDetail')->get();
     }
 
     public function show($id)
     {
-        return Sale::with('variant', 'orderDetail')->findOrFail($id);
+        return Sale::with('variant.product', 'variant.color', 'variant.size', 'orderDetail')->findOrFail($id);
     }
 
     public function store(Request $request)

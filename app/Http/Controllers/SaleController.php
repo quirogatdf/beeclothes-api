@@ -26,7 +26,7 @@ class SaleController extends Controller
             'unit_price' => 'required|numeric|min:0',
             'unit_cost' => 'required|numeric|min:0',
             'sale_date' => 'required|date',
-            'status' => 'sometimes|in:completed,cancelled,refunded',
+            'status' => 'sometimes|in:completed,cancelled,refunded,pending',
             'customer_name' => 'nullable|string|max:255',
         ]);
 
@@ -47,7 +47,7 @@ class SaleController extends Controller
             'unit_price' => 'sometimes|required|numeric|min:0',
             'unit_cost' => 'sometimes|required|numeric|min:0',
             'sale_date' => 'sometimes|required|date',
-            'status' => 'sometimes|in:completed,cancelled,refunded',
+            'status' => 'sometimes|in:completed,cancelled,refunded,pending',
             'customer_name' => 'nullable|string|max:255',
         ]);
 

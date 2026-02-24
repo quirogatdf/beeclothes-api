@@ -24,7 +24,7 @@ class Sale extends Model
         'unit_price' => 'decimal:2',
         'unit_cost' => 'decimal:2',
         'profit' => 'decimal:2',
-        'sale_date' => 'date',
+        'sale_date' => 'datetime:Y-m-d',
     ];
 
     public function variant(): BelongsTo

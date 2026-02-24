@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class Sale extends Model
 {
@@ -24,8 +25,14 @@ class Sale extends Model
         'unit_price' => 'decimal:2',
         'unit_cost' => 'decimal:2',
         'profit' => 'decimal:2',
-        'sale_date' => 'datetime:Y-m-d',
     ];
+
+    protected function saleDate(): Attribute
+    {
+        return Attribute::make(
+            get: fn($value) => \Carbon\Carbon::parse($value)->format('Y-m-d'),
+        );
+    }
 
     public function variant(): BelongsTo
     {

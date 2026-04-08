@@ -69,7 +69,7 @@ class SiteSettingController extends Controller
         return response()->json(array_values($visibleItems));
     }
 
-    // PUT /admin/menu - Guardar menú (solo custom items)
+    // PUT /admin/menu - Guardar menú (todos los items, incluyendo categorías)
     public function saveMenu(Request $request)
     {
         $validated = $request->validate([
@@ -78,18 +78,13 @@ class SiteSettingController extends Controller
             'menu.*.path' => 'nullable|string|max:255',
             'menu.*.order' => 'nullable|integer',
             'menu.*.is_visible' => 'nullable|boolean',
+            'menu.*.category_id' => 'nullable|integer',
+            'menu.*.children' => 'nullable|array',
         ]);
 
-        // Guardar solo los items que NO son categorías (son los que vienen del frontend)
-        // El frontend envía los items custom del menú (los de "Inicio", "Preguntas Frecuentes", etc)
-        // Las categorías se gestionan desde su propio CRUD
-
-        // Los items con category_id son categorías, los otros son custom
-        $customItems = array_filter($validated['menu'], function ($item) {
-            return !isset($item['category_id']);
-        });
-
-        SiteSetting::setValue('custom_menu_items', array_values($customItems));
+        // Guardar todos los items (incluidos los de categorías)
+        // Ahora el usuario puede agregar categorías manualmente desde el backoffice
+        SiteSetting::setValue('custom_menu_items', array_values($validated['menu']));
 
         return response()->json([
             'message' => 'Menú guardado correctamente',

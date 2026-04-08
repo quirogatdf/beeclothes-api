@@ -60,6 +60,8 @@ Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
     // Site Settings & Menu
     Route::get('/config', [SiteSettingController::class, 'getConfig']);
     Route::put('/config', [SiteSettingController::class, 'updateConfig']);
-    Route::get('/menu', [SiteSettingController::class, 'getMenu']);
     Route::put('/menu', [SiteSettingController::class, 'saveMenu']);
 });
+
+// Public menu endpoint (no auth required)
+Route::get('/menu', [SiteSettingController::class, 'getMenu']);

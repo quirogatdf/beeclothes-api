@@ -28,7 +28,7 @@ Route::get('/categories', [categoryController::class, 'index']);
 Route::get('/categories/tree', [categoryController::class, 'tree']);
 Route::get('/categories/{id}/products', [categoryController::class, 'products']);
 
-Route::middleware('auth:sanctum')->prefix('admin')->name('admin')->group(function () {
+Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
 
     // Colors API route
     Route::apiResource('/colors', colorController::class);

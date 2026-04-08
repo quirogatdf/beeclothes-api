@@ -48,33 +48,25 @@ class SiteSettingController extends Controller
         ]);
     }
 
-    // GET /admin/menu - Obtener menú completo (categorías + custom items)
+    // GET /menu - Obtener menú (solo custom items, NO categorías automáticas)
     public function getMenu()
     {
-        // 1. Obtener custom items desde site_settings
+        // Solo retornamos los custom items configurados en el backoffice
+        // Las categorías ya no se agregan automáticamente
+        // El usuario las configura manualmente desde el panel de menús
         $customItems = SiteSetting::getValue('custom_menu_items', []);
 
-        // 2. Obtener categorías desde la base de datos
-        $categoryItems = Category::root()
-            ->where('show_in_menu', true)
-            ->with('children.children')
-            ->get()
-            ->map(function ($category) {
-                return $this->formatCategoryForMenu($category);
-            })
-            ->toArray();
+        // Filtrar solo los items visibles
+        $visibleItems = array_filter($customItems, function ($item) {
+            return $item['is_visible'] ?? true;
+        });
 
-        // 3. Combinar: custom items + categorías
-        // Los custom items van primero (Inicio, FAQs, Contacto)
-        // Las categorías van después
-        $menu = array_merge($customItems, $categoryItems);
-
-        // Reordenar: los custom items tienen order < 100, categorías start en 100
-        usort($menu, function ($a, $b) {
+        // Ordenar por 'order'
+        usort($visibleItems, function ($a, $b) {
             return ($a['order'] ?? 0) - ($b['order'] ?? 0);
         });
 
-        return response()->json($menu);
+        return response()->json(array_values($visibleItems));
     }
 
     // PUT /admin/menu - Guardar menú (solo custom items)
@@ -101,6 +93,34 @@ class SiteSettingController extends Controller
 
         return response()->json([
             'message' => 'Menú guardado correctamente',
+        ]);
+    }
+
+    // GET /admin/menu - Obtener menú para el backoffice (custom items + categorías disponibles)
+    public function getMenuForAdmin()
+    {
+        // 1. Obtener custom items desde site_settings
+        $customItems = SiteSetting::getValue('custom_menu_items', []);
+
+        // 2. Obtener todas las categorías disponibles para agregar al menú
+        $categoryItems = Category::where('show_in_menu', true)
+            ->orderBy('name')
+            ->get()
+            ->map(function ($category) {
+                return [
+                    'id' => 'cat_' . $category->id,
+                    'label' => $category->name,
+                    'path' => '/products?category_id=' . $category->id,
+                    'order' => 0,
+                    'is_visible' => true,
+                    'category_id' => $category->id,
+                ];
+            })
+            ->toArray();
+
+        return response()->json([
+            'custom_items' => $customItems,
+            'available_categories' => $categoryItems,
         ]);
     }
 

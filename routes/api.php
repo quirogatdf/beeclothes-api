@@ -13,6 +13,7 @@ use App\Http\Controllers\OrderDetailController;
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\variantController;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\SiteSettingController;
 
 
 /*Route::get('/user', function (Request $request) {
@@ -21,6 +22,11 @@ use App\Http\Controllers\Api\AuthController;
 
 Route::post('/login', [AuthController::class, 'login']);
 Route::get('/products', [productController::class, 'index']);
+
+// Public category endpoints
+Route::get('/categories', [categoryController::class, 'index']);
+Route::get('/categories/tree', [categoryController::class, 'tree']);
+Route::get('/categories/{id}/products', [categoryController::class, 'products']);
 
 Route::middleware('auth:sanctum')->prefix('admin')->name('admin')->group(function () {
 
@@ -50,4 +56,10 @@ Route::middleware('auth:sanctum')->prefix('admin')->name('admin')->group(functio
 
     //Sales API route
     Route::apiResource('/sales', SaleController::class);
+
+    // Site Settings & Menu
+    Route::get('/config', [SiteSettingController::class, 'getConfig']);
+    Route::put('/config', [SiteSettingController::class, 'updateConfig']);
+    Route::get('/menu', [SiteSettingController::class, 'getMenu']);
+    Route::put('/menu', [SiteSettingController::class, 'saveMenu']);
 });

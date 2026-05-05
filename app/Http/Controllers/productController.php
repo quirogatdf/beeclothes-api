@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 
 class productController extends Controller
 {
-    // Get all products with their variants and category (only active with stock)
+    // Get all products with their variants and category (only active with stock) - PUBLIC
     public function index()
     {
         $products = Product::with([
@@ -27,6 +27,18 @@ class productController extends Controller
 
                 return $product;
             });
+
+        return $products;
+    }
+
+    // Get ALL products for admin (no filtering) - ADMIN ONLY
+    public function adminIndex()
+    {
+        $products = Product::with([
+            'category',
+            'variants.size',
+            'variants.color',
+        ])->get();
 
         return $products;
     }

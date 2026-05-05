@@ -39,8 +39,9 @@ Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
     // Categories API route
     Route::apiResource('/categories', categoryController::class);
 
-    //Products API route
-    Route::apiResource('/products', productController::class);
+    //Products API route - Admin (all products, no filter)
+    Route::get('/products', [productController::class, 'adminIndex']);
+    Route::apiResource('/products', productController::class)->except(['index']);
 
     //Variant API route
     Route::apiResource('/variants', variantController::class);

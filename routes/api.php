@@ -22,6 +22,7 @@ use App\Http\Controllers\SiteSettingController;
 
 Route::post('/login', [AuthController::class, 'login']);
 Route::get('/products', [productController::class, 'index']);
+Route::get('/featured-product', [SiteSettingController::class, 'getFeaturedProduct']);
 
 // Public category endpoints
 Route::get('/categories', [categoryController::class, 'index']);

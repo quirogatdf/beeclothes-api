@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\SiteSetting;
 use App\Models\Category;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class SiteSettingController extends Controller
@@ -16,6 +17,7 @@ class SiteSettingController extends Controller
             'store_description' => '',
             'contact_phone' => '',
             'contact_email' => '',
+            'featured_product_id' => null,
             'social_links' => [
                 'instagram' => '',
                 'facebook' => '',
@@ -34,6 +36,7 @@ class SiteSettingController extends Controller
             'store_description' => 'nullable|string',
             'contact_phone' => 'nullable|string|max:50',
             'contact_email' => 'nullable|email',
+            'featured_product_id' => 'nullable|integer|exists:products,id',
             'social_links' => 'nullable|array',
             'social_links.instagram' => 'nullable|string',
             'social_links.facebook' => 'nullable|string',
@@ -46,6 +49,34 @@ class SiteSettingController extends Controller
             'message' => 'Configuración guardada correctamente',
             'data' => $validated,
         ]);
+    }
+
+    // GET /featured-product - Obtener el producto destacado de la home (público)
+    public function getFeaturedProduct()
+    {
+        $featuredProductId = SiteSetting::getValue('site_config', [])['featured_product_id'] ?? null;
+
+        if (!$featuredProductId) {
+            return response()->json(['message' => 'No hay producto destacado configurado'], 404);
+        }
+
+        $product = Product::with([
+            'category',
+            'variants.size',
+            'variants.color',
+        ])
+            ->where('id', $featuredProductId)
+            ->where('is_active', 1)
+            ->first();
+
+        if (!$product) {
+            return response()->json(['message' => 'El producto destacado no existe o no está activo'], 404);
+        }
+
+        // Filtrar variantes sin stock, como hace el index público
+        $product->variants = $product->variants->filter(fn ($v) => $v->stock > 0)->values();
+
+        return response()->json($product);
     }
 
     // GET /menu - Obtener menú (solo custom items, NO categorías automáticas)

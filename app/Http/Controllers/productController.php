@@ -76,7 +76,7 @@ class productController extends Controller
             // Validar Dinero (Nuevos campos)
             'variants.*.cost' => 'required|numeric|min:0',
             'variants.*.price' => 'required|numeric|min:0',
-            'variants.*.promotional_price' => 'nullable|numeric|lt:variants.*.price',
+            'variants.*.promocional_price' => 'nullable|numeric|lt:variants.*.price',
 
             // Validar URL de imagen
             'variants.*.image_url' => 'nullable|url|max:2048',
@@ -124,7 +124,7 @@ class productController extends Controller
             // Validar Dinero
             'variants.*.cost' => 'required|numeric|min:0',
             'variants.*.price' => 'required|numeric|min:0',
-            'variants.*.promotional_price' => 'nullable|numeric|lt:variants.*.price',
+            'variants.*.promocional_price' => 'nullable|numeric|lt:variants.*.price',
 
             // Validar URL de imagen
             'variants.*.image_url' => 'nullable|url|max:2048',
